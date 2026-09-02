@@ -1,4 +1,3 @@
-const CACHE='bunny-stamps-v2';
-const ASSETS=['./','./index.html','./style.css','./app.js','./app-icon.png','./ruby-stamps-sheet.png','./manifest.webmanifest'];
-self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS))));
-self.addEventListener('fetch',event=>{if(event.request.method==='GET'&&new URL(event.request.url).origin===location.origin)event.respondWith(caches.match(event.request).then(saved=>saved||fetch(event.request)))});
+const CACHE='kanon-stamps-v2';
+const ASSETS=['./','./index.html','./style.css','./app.js','./app-icon.png','./manifest.webmanifest','./stamps/ok.png','./stamps/understood.png','./stamps/thanks.png','./stamps/cry.png','./stamps/good-job.png','./stamps/hello.png','./stamps/seriously.png','./stamps/love.png','./stamps/im-home.png','./stamps/lonely.png','./stamps/wait.png','./stamps/congrats.png','./stamps/going.png','./stamps/see-you.png','./stamps/yay.png','./stamps/hello-day.png'];
+self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting())));self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==CACHE).map(x=>caches.delete(x)))).then(()=>self.clients.claim())));self.addEventListener('fetch',e=>{if(e.request.method==='GET'&&new URL(e.request.url).origin===location.origin)e.respondWith(caches.match(e.request).then(s=>s||fetch(e.request)))})
