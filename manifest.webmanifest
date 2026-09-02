@@ -1,1 +1,1 @@
-{"name":"KANON STAMPS","short_name":"KANON","start_url":"./","display":"standalone","background_color":"#f4f8ff","theme_color":"#ff4f9a","icons":[{"src":"app-icon.png","sizes":"any","type":"image/png","purpose":"any maskable"}]}
+{"name":"KANON STAMPS","short_name":"KANON","start_url":"./","display":"standalone","background_color":"#f4f8ff","theme_color":"#ff4f9a","icons":[{"src":"app-icon.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}]}

@@ -1,3 +1,19 @@
-const CACHE='kanon-stamps-v6';
-const ASSETS=['./','./index.html','./style.css','./app.js','./app-icon.png','./manifest.webmanifest','./stamps/ok.png','./stamps/understood.png','./stamps/thanks.png','./stamps/cry.png','./stamps/good-job.png','./stamps/hello.png','./stamps/seriously.png','./stamps/love.png','./stamps/im-home.png','./stamps/lonely.png','./stamps/wait.png','./stamps/congrats.png','./stamps/going.png','./stamps/see-you.png','./stamps/yay.png','./stamps/hello-day.png','./stamps/please.png','./stamps/come-with-me.png','./stamps/fight.png','./stamps/welcome-home.png','./stamps/okay.png','./stamps/sorry.png','./stamps/thanks-polite.png','./stamps/good-night.png','./stamps/leaving-first.png','./stamps/good-evening.png','./stamps/amazing.png','./stamps/on-my-way.png','./stamps/sorry-friend.png','./stamps/leave-it-to-me.png','./stamps/get-well.png','./stamps/yes.png','./stamps/naruhodo.png','./stamps/waited.png','./stamps/thanks-help.png','./stamps/great-job.png','./stamps/sleepy.png','./stamps/im-home-cheerful.png','./stamps/see-you-tomorrow.png','./stamps/good-morning.png'];
-self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting())));self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==CACHE).map(x=>caches.delete(x)))).then(()=>self.clients.claim())));self.addEventListener('fetch',e=>{if(e.request.method==='GET'&&new URL(e.request.url).origin===location.origin)e.respondWith(caches.match(e.request).then(s=>s||fetch(e.request)))})
+const CACHE='kanon-stamps-v11';
+const ASSETS=['./','./index.html','./style.css','./app.js','./app-icon.png','./manifest.webmanifest','./stamps/hero-sm.webp'];
+self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting())));
+self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==CACHE).map(x=>caches.delete(x)))).then(()=>self.clients.claim())));
+self.addEventListener('fetch',e=>{
+  if(e.request.method!=='GET')return;
+  const url=new URL(e.request.url);
+  if(url.origin!==location.origin)return;
+  e.respondWith(caches.match(e.request).then(cached=>{
+    if(cached)return cached;
+    return fetch(e.request).then(res=>{
+      if(res.ok){
+        const copy=res.clone();
+        caches.open(CACHE).then(c=>c.put(e.request,copy));
+      }
+      return res;
+    });
+  }));
+});
