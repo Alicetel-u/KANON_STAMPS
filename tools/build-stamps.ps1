@@ -1,6 +1,7 @@
 # Convert master PNGs into:
 #   stamps/<id>.png         512px send/copy file
 #   stamps/thumbs/<id>.webp 320px display thumbnail
+#   stamps/share/<id>.webp  1024px high-quality export source
 #
 # Usage:
 #   ./tools/build-stamps.ps1
@@ -13,10 +14,11 @@ $root = Split-Path $PSScriptRoot -Parent
 $masters = Join-Path $root '_masters'
 $stamps = Join-Path $root 'stamps'
 $thumbs = Join-Path $stamps 'thumbs'
+$share = Join-Path $stamps 'share'
 $ffmpeg = (Get-Command ffmpeg -ErrorAction SilentlyContinue).Source
 if (-not $ffmpeg) { throw 'ffmpeg が見つかりません' }
 
-New-Item -ItemType Directory -Force -Path $stamps, $thumbs | Out-Null
+New-Item -ItemType Directory -Force -Path $stamps, $thumbs, $share | Out-Null
 
 if ($args.Count -gt 0) {
   $files = $args | ForEach-Object { Get-Item -LiteralPath $_ }
@@ -30,13 +32,17 @@ if (-not $files) { throw '変換する PNG がありません' }
 function Convert-One([string]$src, [string]$id) {
   $png = Join-Path $stamps "$id.png"
   $webp = Join-Path $thumbs "$id.webp"
+  $shareWebp = Join-Path $share "$id.webp"
   & $ffmpeg -hide_banner -loglevel error -y -i $src -vf 'scale=512:512:flags=lanczos' -pix_fmt rgba $png
   if ($LASTEXITCODE -ne 0) { throw "PNG failed: $id" }
   & $ffmpeg -hide_banner -loglevel error -y -i $src -vf 'scale=320:320:flags=lanczos' -c:v libwebp -q:v 80 -compression_level 6 $webp
   if ($LASTEXITCODE -ne 0) { throw "WebP failed: $id" }
+  & $ffmpeg -hide_banner -loglevel error -y -i $src -vf 'scale=1024:1024:flags=lanczos' -c:v libwebp -q:v 92 -compression_level 6 $shareWebp
+  if ($LASTEXITCODE -ne 0) { throw "Share WebP failed: $id" }
   $p = (Get-Item -LiteralPath $png).Length
   $w = (Get-Item -LiteralPath $webp).Length
-  '{0}: send={1:N0}KB thumb={2:N0}KB' -f $id, ($p / 1KB), ($w / 1KB)
+  $s = (Get-Item -LiteralPath $shareWebp).Length
+  '{0}: send={1:N0}KB thumb={2:N0}KB share={3:N0}KB' -f $id, ($p / 1KB), ($w / 1KB), ($s / 1KB)
 }
 
 foreach ($file in $files) {

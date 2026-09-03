@@ -6,7 +6,7 @@ const stickers=[
 ['yay','やったー！','YAY','hype'],['amazing','すごい！','AMAZING','hype'],['great-job','えらい！','GREAT JOB','hype'],['congrats','おめでとう！','CONGRATS','hype'],['fight','ファイト！','FIGHT','hype'],['genius','天才か','GENIUS','hype'],['god-tier','神！','GOATED','hype'],['champion','優勝','CHAMPION','hype'],['gacha','神引き！','JACKPOT','hype'],['success','大成功！','BIG WIN','hype'],['battle-ready','臨戦態勢！','BATTLE READY','hype'],
 ['sleepy','眠い…','SLEEPY','now'],['charging','充電中…','RECHARGING','now'],['hikikomori','引きこもり中…','HIKIKOMORI','now'],['working','作業中…','WORKING','now'],['streaming','配信中！','LIVE NOW','now'],['snacking','補給中！','SNACK TIME','now'],['all-nighter','徹夜中','ALL NIGHTER','now'],['screenshot','スクショとった！','SCREENSHOT','now'],['on-site','現場です！','ON SITE','now'],['summer-break','夏休み！','SUMMER BREAK','now'],
 ['on-my-way','いま向かってます！','ON MY WAY','out'],['speeding','爆速で行く！','GOING FAST','out'],['packed','準備完了！','ALL SET','out'],['bought','買ってきた！','GOT THE GOODS','out'],['shopping-spree','爆買い！','SHOPPING SPREE','out']
-].map(([id,name,sub,category])=>({id,name,sub,category,thumb:`stamps/thumbs/${id}.webp`,file:`stamps/${id}.png`}));
+].map(([id,name,sub,category])=>({id,name,sub,category,thumb:`stamps/thumbs/${id}.webp`,file:`stamps/share/${id}.webp`}));
 const CATS=[['all','すべて'],['hi','あいさつ'],['reply','返事'],['mood','気持ち'],['thanks','感謝'],['hype','ほめる'],['now','いま'],['out','おでかけ']];
 const grid=document.querySelector('#grid'),empty=document.querySelector('#empty'),modal=document.querySelector('#modal'),preview=document.querySelector('#preview'),favOnly=document.querySelector('#favOnly'),nav=document.querySelector('#categories');
 let active,showFavs=false,category='all',favorites=new Set(JSON.parse(localStorage.getItem('kanon-favorites')||'[]'));
@@ -26,7 +26,7 @@ function open(s){active=s;preview.src=s.thumb;preview.alt=s.name;document.queryS
 function close(){modal.hidden=true;document.body.style.overflow=''}
 async function blob(){return prefetch(active)}
 async function shareBlob(){
-  const size=512,canvas=document.createElement('canvas');
+  const size=1024,canvas=document.createElement('canvas');
   canvas.width=canvas.height=size;
   const ctx=canvas.getContext('2d');
   const radius=Math.hypot(size*.5,size*.62);
