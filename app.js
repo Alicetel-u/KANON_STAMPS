@@ -25,10 +25,27 @@ function toggle(id){favorites.has(id)?favorites.delete(id):favorites.add(id);loc
 function open(s){active=s;preview.src=s.thumb;preview.alt=s.name;document.querySelector('#selected').textContent=s.name;modal.hidden=false;document.body.style.overflow='hidden';prefetch(s)}
 function close(){modal.hidden=true;document.body.style.overflow=''}
 async function blob(){return prefetch(active)}
+async function shareBlob(){
+  const size=512,canvas=document.createElement('canvas');
+  canvas.width=canvas.height=size;
+  const ctx=canvas.getContext('2d');
+  const radius=Math.hypot(size*.5,size*.62);
+  const bg=ctx.createRadialGradient(size*.5,size*.38,0,size*.5,size*.38,radius);
+  bg.addColorStop(0,'#ffffff');
+  bg.addColorStop(.42,'#ffffff');
+  bg.addColorStop(.74,'#ffe8f5');
+  bg.addColorStop(1,'#d9f3ff');
+  ctx.fillStyle=bg;
+  ctx.fillRect(0,0,size,size);
+  const image=await createImageBitmap(await blob());
+  ctx.drawImage(image,0,0,size,size);
+  image.close();
+  return new Promise((resolve,reject)=>canvas.toBlob(result=>result?resolve(result):reject(new Error('image compose failed')),'image/png'));
+}
 const say=t=>{const e=document.querySelector('#notice');e.textContent=t;clearTimeout(say.t);say.t=setTimeout(()=>e.textContent='',3200)};
 document.querySelector('#close').onclick=close;modal.onclick=e=>{if(e.target===modal)close()};document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!modal.hidden)close()});
 document.querySelector('#copy').onclick=async()=>{try{await navigator.clipboard.write([new ClipboardItem({'image/png':await blob()})]);say('コピーしました！LINEに貼り付けてね。')}catch{say('コピーできない場合は「送る」か「保存」を使ってね。')}};
-document.querySelector('#share').onclick=async()=>{const f=new File([await blob()],`${active.id}.png`,{type:'image/png'});try{if(navigator.canShare?.({files:[f]}))await navigator.share({files:[f]});else document.querySelector('#save').click()}catch(e){if(e.name!=='AbortError')say('保存してから送ってね。')}};
+document.querySelector('#share').onclick=async()=>{try{const f=new File([await shareBlob()],`${active.id}.png`,{type:'image/png'});if(navigator.canShare?.({files:[f]}))await navigator.share({files:[f]});else document.querySelector('#save').click()}catch(e){if(e.name!=='AbortError')say('保存してから送ってね。')}};
 document.querySelector('#save').onclick=async()=>{const a=document.createElement('a');a.href=URL.createObjectURL(await blob());a.download=`kanon-${active.id}.png`;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);say('PNGを保存しました！')};
 function renderCats(){
   nav.replaceChildren(favOnly);

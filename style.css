@@ -255,7 +255,7 @@ footer b,footer span{font:800 8px Montserrat;letter-spacing:.12em}
   .stats{gap:6px;margin-top:9px}
   .stats b{font-size:22px}
   .stats small{font-size:7px}
-  .hero img{right:-1%;bottom:-4%;width:55%;height:106%}
+  .hero img{right:-1%;bottom:-9%;width:55%;height:106%}
   .categories{
     flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;overscroll-behavior-x:contain;
     gap:6px;padding:6px 2px 9px;margin-bottom:4px;
@@ -290,7 +290,7 @@ footer b,footer span{font:800 8px Montserrat;letter-spacing:.12em}
   .hero{height:205px}
   .hero-copy{left:14px;top:14px;width:63%}
   .hero h2{font-size:20px}
-  .hero img{right:-5%;width:60%}
+  .hero img{right:-5%;bottom:-10%;width:60%}
   .grid{gap:10px}
   .stamp b{font-size:12px}
 }
