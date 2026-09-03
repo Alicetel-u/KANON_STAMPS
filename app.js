@@ -44,9 +44,9 @@ async function shareBlob(){
 }
 const say=t=>{const e=document.querySelector('#notice');e.textContent=t;clearTimeout(say.t);say.t=setTimeout(()=>e.textContent='',3200)};
 document.querySelector('#close').onclick=close;modal.onclick=e=>{if(e.target===modal)close()};document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!modal.hidden)close()});
-document.querySelector('#copy').onclick=async()=>{try{await navigator.clipboard.write([new ClipboardItem({'image/png':await blob()})]);say('コピーしました！LINEに貼り付けてね。')}catch{say('コピーできない場合は「送る」か「保存」を使ってね。')}};
+document.querySelector('#copy').onclick=async()=>{try{await navigator.clipboard.write([new ClipboardItem({'image/png':await shareBlob()})]);say('コピーしました！LINEに貼り付けてね。')}catch{say('コピーできない場合は「送る」か「保存」を使ってね。')}};
 document.querySelector('#share').onclick=async()=>{try{const f=new File([await shareBlob()],`${active.id}.png`,{type:'image/png'});if(navigator.canShare?.({files:[f]}))await navigator.share({files:[f]});else document.querySelector('#save').click()}catch(e){if(e.name!=='AbortError')say('保存してから送ってね。')}};
-document.querySelector('#save').onclick=async()=>{const a=document.createElement('a');a.href=URL.createObjectURL(await blob());a.download=`kanon-${active.id}.png`;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);say('PNGを保存しました！')};
+document.querySelector('#save').onclick=async()=>{const a=document.createElement('a');a.href=URL.createObjectURL(await shareBlob());a.download=`kanon-${active.id}.png`;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);say('PNGを保存しました！')};
 function renderCats(){
   nav.replaceChildren(favOnly);
   CATS.forEach(([id,label])=>{
