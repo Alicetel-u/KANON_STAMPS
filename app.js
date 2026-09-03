@@ -28,10 +28,10 @@ async function blob(){return prefetch(active)}
 const say=t=>{const e=document.querySelector('#notice');e.textContent=t;clearTimeout(say.t);say.t=setTimeout(()=>e.textContent='',3200)};
 document.querySelector('#close').onclick=close;modal.onclick=e=>{if(e.target===modal)close()};document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!modal.hidden)close()});
 document.querySelector('#copy').onclick=async()=>{try{await navigator.clipboard.write([new ClipboardItem({'image/png':await blob()})]);say('コピーしました！LINEに貼り付けてね。')}catch{say('コピーできない場合は「送る」か「保存」を使ってね。')}};
-document.querySelector('#share').onclick=async()=>{const f=new File([await blob()],`${active.id}.png`,{type:'image/png'});try{if(navigator.canShare?.({files:[f]}))await navigator.share({files:[f],title:active.name});else document.querySelector('#save').click()}catch(e){if(e.name!=='AbortError')say('保存してから送ってね。')}};
+document.querySelector('#share').onclick=async()=>{const f=new File([await blob()],`${active.id}.png`,{type:'image/png'});try{if(navigator.canShare?.({files:[f]}))await navigator.share({files:[f]});else document.querySelector('#save').click()}catch(e){if(e.name!=='AbortError')say('保存してから送ってね。')}};
 document.querySelector('#save').onclick=async()=>{const a=document.createElement('a');a.href=URL.createObjectURL(await blob());a.download=`kanon-${active.id}.png`;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);say('PNGを保存しました！')};
 function renderCats(){
-  nav.replaceChildren();
+  nav.replaceChildren(favOnly);
   CATS.forEach(([id,label])=>{
     const n=id==='all'?stickers.length:stickers.filter(s=>s.category===id).length;
     const b=document.createElement('button');
@@ -42,7 +42,7 @@ function renderCats(){
     nav.append(b);
   });
 }
-favOnly.onclick=()=>{showFavs=!showFavs;favOnly.setAttribute('aria-pressed',showFavs);favOnly.textContent=showFavs?'♥':'♡';render()};
+favOnly.onclick=()=>{showFavs=!showFavs;favOnly.setAttribute('aria-pressed',showFavs);favOnly.classList.toggle('on',showFavs);favOnly.innerHTML=`お気に入り <b>${showFavs?'♥':'♡'}</b>`;render()};
 addEventListener('pointermove',e=>{
   document.documentElement.style.setProperty('--mx',e.clientX+'px');
   document.documentElement.style.setProperty('--my',e.clientY+'px');

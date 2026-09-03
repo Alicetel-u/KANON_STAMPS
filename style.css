@@ -77,12 +77,6 @@ header{
 }
 header p{font:800 9px Montserrat;letter-spacing:.17em;color:var(--blue);margin:0}
 header h1{font:900 19px Montserrat;letter-spacing:-.04em;margin:1px 0}
-.fav-filter{
-  margin-left:auto;width:46px;height:46px;border:2px solid #e8eaf3;border-radius:15px;
-  background:#fff;color:var(--pink);font-size:25px;box-shadow:0 7px 18px #19234812;
-}
-.fav-filter[aria-pressed=true]{color:#fff;background:var(--pink);border-color:var(--pink)}
-
 .hero{
   position:relative;height:318px;border-radius:32px;overflow:hidden;margin-bottom:26px;
   background:
@@ -132,15 +126,6 @@ header h1{font:900 19px Montserrat;letter-spacing:-.04em;margin:1px 0}
 .stats b{font:900 28px Montserrat;color:var(--yellow);text-shadow:0 0 18px #ffd52380}
 .stats small{font:800 8px/1.25 Montserrat;letter-spacing:.1em}
 
-.collection-head{display:flex;align-items:end;justify-content:space-between;margin:0 4px 12px}
-.collection-head span{font:800 9px Montserrat;letter-spacing:.16em;color:var(--pink)}
-.collection-head h2{font-size:23px;margin:2px 0 0}
-.collection-head p{font:800 8px Montserrat;letter-spacing:.08em;margin:0 0 4px;color:#7c849d}
-.collection-head i{
-  display:inline-block;width:7px;height:7px;border-radius:50%;background:#49d888;
-  box-shadow:0 0 0 4px #49d88822;margin-right:4px;animation:pulse 1.8s ease-out infinite;
-}
-
 .categories{
   position:sticky;top:calc(8px + env(safe-area-inset-top));z-index:6;
   display:flex;flex-wrap:wrap;gap:7px;padding:8px 2px 12px;margin:0 -2px 6px;
@@ -157,6 +142,8 @@ header h1{font:900 19px Montserrat;letter-spacing:-.04em;margin:1px 0}
   background:linear-gradient(135deg,var(--pink),var(--blue));
   box-shadow:0 10px 20px #ff2f8f33;
 }
+.categories .fav-category{color:var(--pink);border-color:#ff2f8f2e}
+.categories .fav-category.on{color:#fff;background:var(--pink);box-shadow:0 10px 20px #ff2f8f33}
 .categories b{
   display:inline-grid;place-items:center;min-width:18px;height:18px;margin-left:4px;
   border-radius:8px;background:#fff;color:var(--pink);font:800 8px Montserrat;
@@ -252,6 +239,29 @@ footer b,footer span{font:800 8px Montserrat;letter-spacing:.12em}
 @keyframes sheet{from{transform:translateY(28px);opacity:.4}to{transform:none;opacity:1}}
 
 @media(max-width:559px){
+  .app{
+    padding:calc(8px + env(safe-area-inset-top)) 12px calc(28px + env(safe-area-inset-bottom));
+  }
+  header{
+    gap:9px;margin-bottom:10px;padding:6px 7px 6px 8px;border-radius:18px;
+  }
+  .brand{width:40px;height:40px;border-radius:13px;font-size:21px;box-shadow:3px 3px 0 var(--navy)}
+  header p{font-size:7px}
+  header h1{font-size:16px}
+  .hero{height:220px;margin-bottom:16px;border-radius:24px}
+  .hero-copy{left:16px;top:16px;width:60%}
+  .hero h2{font-size:clamp(20px,6vw,25px);line-height:1.25;margin:7px 0 6px}
+  .hero-copy>p{font-size:9px;line-height:1.55;max-width:17em}
+  .stats{gap:6px;margin-top:9px}
+  .stats b{font-size:22px}
+  .stats small{font-size:7px}
+  .hero img{right:-1%;bottom:-4%;width:55%;height:106%}
+  .categories{
+    flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;overscroll-behavior-x:contain;
+    gap:6px;padding:6px 2px 9px;margin-bottom:4px;
+  }
+  .categories::-webkit-scrollbar{display:none}
+  .categories button{padding:7px 11px;font-size:10px;white-space:nowrap}
   .modal{padding:0;place-items:end center}
   .modalcard{
     width:100%;border-radius:28px 28px 0 0;max-height:92dvh;
@@ -277,10 +287,10 @@ footer b,footer span{font:800 8px Montserrat;letter-spacing:.12em}
 }
 
 @media(max-width:390px){
-  .hero{height:292px}
-  .hero-copy{left:16px;top:18px;width:62%}
-  .hero h2{font-size:23px}
-  .hero img{right:-6%;width:64%}
+  .hero{height:205px}
+  .hero-copy{left:14px;top:14px;width:63%}
+  .hero h2{font-size:20px}
+  .hero img{right:-5%;width:60%}
   .grid{gap:10px}
   .stamp b{font-size:12px}
 }

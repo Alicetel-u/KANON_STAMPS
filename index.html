@@ -28,7 +28,6 @@
       <p>KANON'S STICKER KIT</p>
       <h1>KANON STAMPS</h1>
     </div>
-    <button id="favOnly" class="fav-filter" aria-pressed="false" aria-label="お気に入りだけ表示">♡</button>
   </header>
   <section class="hero">
     <div class="hero-rings" aria-hidden="true"></div>
@@ -41,14 +40,9 @@
     </div>
     <img src="stamps/hero.webp" srcset="stamps/hero-sm.webp 480w, stamps/hero.webp 960w" sizes="(max-width:560px) 70vw, 450px" alt="配信中のKANON" width="960" height="960">
   </section>
-  <section class="collection-head">
-    <div>
-      <span>THE COLLECTION</span>
-      <h2>どれを送る？</h2>
-    </div>
-    <p><i></i> ALL READY</p>
-  </section>
-  <nav id="categories" class="categories" aria-label="スタンプの種類"></nav>
+  <nav id="categories" class="categories" aria-label="スタンプの種類">
+    <button id="favOnly" class="fav-category" aria-pressed="false">お気に入り <b>♡</b></button>
+  </nav>
   <section id="grid" class="grid"></section>
   <section id="empty" class="empty" hidden>
     <span>♡</span>
